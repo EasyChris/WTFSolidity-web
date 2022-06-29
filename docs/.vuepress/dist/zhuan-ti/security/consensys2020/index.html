@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Metamask项目方给Solidity程序员的16个安全建议 | 一肩月光 · 笔记</title>
+    <meta name="generator" content="VuePress 1.7.1">
+    
+    <meta name="description" content="Live and learn.">
+    
+    <link rel="preload" href="/assets/css/0.styles.da8d04bd.css" as="style"><link rel="preload" href="/assets/js/app.401b85e8.js" as="script"><link rel="preload" href="/assets/js/2.45986f87.js" as="script"><link rel="preload" href="/assets/js/45.9138306f.js" as="script"><link rel="prefetch" href="/assets/js/10.3c40492c.js"><link rel="prefetch" href="/assets/js/11.cbc40964.js"><link rel="prefetch" href="/assets/js/12.8900d9dd.js"><link rel="prefetch" href="/assets/js/13.8297c0e7.js"><link rel="prefetch" href="/assets/js/14.817ba08b.js"><link rel="prefetch" href="/assets/js/15.ff19f338.js"><link rel="prefetch" href="/assets/js/16.64512a51.js"><link rel="prefetch" href="/assets/js/17.60fd1c46.js"><link rel="prefetch" href="/assets/js/18.bce8f2f9.js"><link rel="prefetch" href="/assets/js/19.6eb8107a.js"><link rel="prefetch" href="/assets/js/20.965af391.js"><link rel="prefetch" href="/assets/js/21.925022da.js"><link rel="prefetch" href="/assets/js/22.093887f3.js"><link rel="prefetch" href="/assets/js/23.228c7dbc.js"><link rel="prefetch" href="/assets/js/24.f69b60cb.js"><link rel="prefetch" href="/assets/js/25.16477dfe.js"><link rel="prefetch" href="/assets/js/26.38e58306.js"><link rel="prefetch" href="/assets/js/27.aedcaa81.js"><link rel="prefetch" href="/assets/js/28.812e41fc.js"><link rel="prefetch" href="/assets/js/29.46e28048.js"><link rel="prefetch" href="/assets/js/3.a7d4947f.js"><link rel="prefetch" href="/assets/js/30.30fb5717.js"><link rel="prefetch" href="/assets/js/31.818caeb7.js"><link rel="prefetch" href="/assets/js/32.4e90d34a.js"><link rel="prefetch" href="/assets/js/33.e347014f.js"><link rel="prefetch" href="/assets/js/34.32880e38.js"><link rel="prefetch" href="/assets/js/35.ba4ba556.js"><link rel="prefetch" href="/assets/js/36.894e59b2.js"><link rel="prefetch" href="/assets/js/37.4586bc0e.js"><link rel="prefetch" href="/assets/js/38.d6602bcd.js"><link rel="prefetch" href="/assets/js/39.4801db25.js"><link rel="prefetch" href="/assets/js/4.5ace8b0e.js"><link rel="prefetch" href="/assets/js/40.b6e8b6bb.js"><link rel="prefetch" href="/assets/js/41.da07455f.js"><link rel="prefetch" href="/assets/js/42.e8c305c7.js"><link rel="prefetch" href="/assets/js/43.ca0a7f96.js"><link rel="prefetch" href="/assets/js/44.bd817410.js"><link rel="prefetch" href="/assets/js/46.9b2b51f4.js"><link rel="prefetch" href="/assets/js/5.1189ae9f.js"><link rel="prefetch" href="/assets/js/6.4db7abcd.js"><link rel="prefetch" href="/assets/js/7.f5f4f264.js"><link rel="prefetch" href="/assets/js/8.7c2bd1fc.js"><link rel="prefetch" href="/assets/js/9.0a92519a.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.da8d04bd.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">一肩月光 · 笔记</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="https://github.com/AmazingAng/WTFSolidity" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  WTFSolidity
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://github.com/EasyChris/WTFSolidity-web" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="https://github.com/AmazingAng/WTFSolidity" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  WTFSolidity
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://github.com/EasyChris/WTFSolidity-web" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Hello Web 3</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Value Types</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Function</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Return</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Data Storage</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Array And Struct</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Mapping</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Initial Value</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Constant</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Insertion Sort</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Modifier</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Event</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Inheritance</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Interface</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Errors</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Overloading</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Library</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Import</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Fallback</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Send ETH</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Call Contract</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Call</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Delegatecall</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Create</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Create 2</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Delete Contract</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>ABI Encode</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Hash</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Selector</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Try Catch</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>ERC 20</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Faucet Sol</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Img</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>专题</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/zhuan-ti/" aria-current="page" class="sidebar-link">/zhuan-ti/</a></li><li><section class="sidebar-group collapsable is-sub-group depth-1"><p class="sidebar-heading"><span>ERC 721</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable is-sub-group depth-1"><p class="sidebar-heading open"><span>Security</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/zhuan-ti/security/consensys2020/" aria-current="page" class="active sidebar-link">Metamask项目方给Solidity程序员的16个安全建议</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/zhuan-ti/security/consensys2020/#metamask项目方给solidity程序员的16个安全建议" class="sidebar-link">Metamask项目方给Solidity程序员的16个安全建议</a></li><li class="sidebar-sub-header"><a href="/zhuan-ti/security/consensys2020/#_1-正确使用-assert-require-revert" class="sidebar-link">1. 正确使用 assert(), require(), revert()</a></li><li class="sidebar-sub-header"><a href="/zhuan-ti/security/consensys2020/#_2-modifier仅用于检查" class="sidebar-link">2. modifier仅用于检查</a></li><li class="sidebar-sub-header"><a href="/zhuan-ti/security/consensys2020/#_3-注意整数除法的舍入" class="sidebar-link">3. 注意整数除法的舍入</a></li><li class="sidebar-sub-header"><a href="/zhuan-ti/security/consensys2020/#_5-fallback-function-后备函数" class="sidebar-link">5. Fallback function 后备函数</a></li><li class="sidebar-sub-header"><a href="/zhuan-ti/security/consensys2020/#_6-显式标记应付函数和状态变量" class="sidebar-link">6. 显式标记应付函数和状态变量</a></li><li class="sidebar-sub-header"><a href="/zhuan-ti/security/consensys2020/#_7-显式标记函数和状态变量的可见性" class="sidebar-link">7. 显式标记函数和状态变量的可见性</a></li><li class="sidebar-sub-header"><a href="/zhuan-ti/security/consensys2020/#_8-将编译指示锁定到特定的编译器版本" class="sidebar-link">8. 将编译指示锁定到特定的编译器版本</a></li><li class="sidebar-sub-header"><a href="/zhuan-ti/security/consensys2020/#_9-使用事件来监控合约活动" class="sidebar-link">9. 使用事件来监控合约活动</a></li><li class="sidebar-sub-header"><a href="/zhuan-ti/security/consensys2020/#_10-请注意-内置-函数可能会被隐藏" class="sidebar-link">10. 请注意，“内置”函数可能会被隐藏</a></li><li class="sidebar-sub-header"><a href="/zhuan-ti/security/consensys2020/#_11-避免使用-tx-origin" class="sidebar-link">11. 避免使用 tx.origin</a></li><li class="sidebar-sub-header"><a href="/zhuan-ti/security/consensys2020/#_12-时间戳依赖" class="sidebar-link">12. 时间戳依赖</a></li><li class="sidebar-sub-header"><a href="/zhuan-ti/security/consensys2020/#_13-15秒规则" class="sidebar-link">13. 15秒规则</a></li><li class="sidebar-sub-header"><a href="/zhuan-ti/security/consensys2020/#_14-多重继承注意事项" class="sidebar-link">14. 多重继承注意事项</a></li><li class="sidebar-sub-header"><a href="/zhuan-ti/security/consensys2020/#_15-使用接口类型而不是地址来保证类型安全" class="sidebar-link">15. 使用接口类型而不是地址来保证类型安全</a></li><li class="sidebar-sub-header"><a href="/zhuan-ti/security/consensys2020/#_16-避免-extcodesize-用于检查外部拥有的帐户" class="sidebar-link">16. 避免 extcodesize 用于检查外部拥有的帐户</a></li></ul></li></ul></section></li><li><section class="sidebar-group collapsable is-sub-group depth-1"><p class="sidebar-heading"><span>Tools</span> <span class="arrow right"></span></p> <!----></section></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h2 id="metamask项目方给solidity程序员的16个安全建议"><a href="#metamask项目方给solidity程序员的16个安全建议" class="header-anchor">#</a> Metamask项目方给Solidity程序员的16个安全建议</h2> <p><strong>原文</strong>：<a href="https://consensys.net/blog/developers/solidity-best-practices-for-smart-contract-security/" target="_blank" rel="noopener noreferrer">Solidity Best Practices for Smart Contract Security<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p><strong>原文作者</strong>：Consensys（metamask项目方）</p> <p><strong>翻译</strong>：<a href="https://twitter.com/0xAA_Science" target="_blank" rel="noopener noreferrer">0xAA<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p><strong>Github</strong>: <a href="">WTFSolidity</a>https://github.com/AmazingAng/WTFSolidity</p> <blockquote><p>写在前面：</p> <p>这是Metamask项目方（Consensys）在2020年8月写的一篇博客，关于智能合约安全，其中给了Solidity程序员16条安全建议，并包含代码样例。</p> <p>这篇文章写于一年半前，那时候solidity版本才到0.5,现在已经是0.8了，很多函数都不同。但很多建议至今仍然适用，读完对我帮助很大。我在网上没找到中文翻译，就简单翻译了一下，并标明了版本差异可能导致的问题，供中文开发者学习。</p> <p>这篇文章的安全理念也融入到WTF Solidity极简入门教程中。</p> <p>By 0xAA</p></blockquote> <p>如果您已经牢记智能合约的安全理念并且正在处理<code>EVM</code>的特性，那么是时候考虑一​​些特定于<code>Solidity</code>编程语言的安全模式了。在本综述中，我们将重点关注<code>Solidity</code>的安全开发建议，这些建议也可能对用其他语言开发智能合约具有指导意义。</p> <p>好了，让我们开始吧。</p> <h2 id="_1-正确使用-assert-require-revert"><a href="#_1-正确使用-assert-require-revert" class="header-anchor">#</a> 1. 正确使用 <code>assert(), require(), revert()</code></h2> <p>便利函数 <code>assert</code> 和 <code>require</code> 可用于检查条件，如果条件不满足则抛出异常。</p> <p><code>assert</code> 函数只能用于测试内部错误和检查不变量。</p> <p>应该使用 <code>require</code> 函数来确保满足有效条件，例如输入或合约状态变量，或者验证来自外部合约调用的返回值。 （<code>0xAA注: solidity在0.8.4版本引入自定义error功能，所以这个版本之前用require，之后用revert-error来确保满足有效条件</code>）</p> <p>遵循这种范式可以让形式化分析工具来验证无效操作码永远不会被运行：这意味着代码中没有不变量被违反并且被形式化验证。</p> <div class="language- extra-class"><pre class="language-text"><code>pragma solidity ^0.5.0;
+
+contract Sharer {
+    function sendHalf(address payable addr) public payable returns (uint balance) {
+        require(msg.value % 2 == 0, &quot;偶数required.&quot;); //Require() 可以加一个自定义消息
+        uint balanceBeforeTransfer = address(this).balance;
+        (bool success, ) = addr.call.value(msg.value / 2)(&quot;&quot;);
+        require(success);
+        // 如果success为false，就revert。下面的总是成立。
+        assert(address(this).balance == balanceBeforeTransfer - msg.value / 2); // used for internal error checking
+        return address(this).balance;
+    }
+}
+</code></pre></div><h2 id="_2-modifier仅用于检查"><a href="#_2-modifier仅用于检查" class="header-anchor">#</a> 2. <code>modifier</code>仅用于检查</h2> <p>修饰符（<code>modifier</code>）内的代码通常在函数体之前执行，因此任何状态更改或外部调用都会违反 <code>Checks-Effects-Interactions</code>模式。此外，开发人员也可能不会注意到这些语句，因为修饰符的代码可能远离函数声明。例如，修饰符的外部调用可能导致重入攻击：</p> <div class="language- extra-class"><pre class="language-text"><code>contract Registry {
+    address owner;
+
+    function isVoter(address _addr) external returns(bool) {
+        // Code
+    }
+}
+
+contract Election {
+    Registry registry;
+
+    modifier isEligible(address _addr) {
+        require(registry.isVoter(_addr));
+        _;
+    }
+
+    function vote() isEligible(msg.sender) public {
+        // Code
+    }
+}
+</code></pre></div><p>在这种情况下，<code>Registry</code>合约可以通过调用<code>isVoter()</code>中的<code>Election.vote()</code> 进行重入攻击。</p> <p>注意：使用<code>modifier</code>替换多个函数中的重复条件检查，例如 <code>isOwner()</code>，否则在函数内部使用<code>require</code>或<code>revert</code>。这使您的智能合约代码更具可读性和更易于审计。</p> <h2 id="_3-注意整数除法的舍入"><a href="#_3-注意整数除法的舍入" class="header-anchor">#</a> 3. 注意整数除法的舍入</h2> <p>所有整数除法都向下舍入到最接近的整数。如果您需要更高的精度，请考虑使用乘数，或同时存储分子和分母。</p> <p>（将来，<code>Solidity</code> 会有浮点类型，这会让这更容易。）</p> <div class="language- extra-class"><pre class="language-text"><code>// bad
+uint x = 5 / 2; // Result is 2, all integer divison rounds DOWN to the nearest integer
+</code></pre></div><p>使用乘数可以防止四舍五入，在将来使用 x 时需要考虑这个乘数：</p> <div class="language- extra-class"><pre class="language-text"><code>// good
+uint multiplier = 10;
+uint x = (5 * multiplier) / 2;
+</code></pre></div><p>存储分子和分母意味着你可以计算 numerator/denominator 链下的结果：</p> <div class="language- extra-class"><pre class="language-text"><code>// good
+uint numerator = 5;
+uint denominator = 2;
+</code></pre></div><h3 id="_4-注意抽象合约abstract和接口interface之间的权衡"><a href="#_4-注意抽象合约abstract和接口interface之间的权衡" class="header-anchor">#</a> 4. 注意抽象合约<code>abstract</code>和接口<code>interface</code>之间的权衡</h3> <p>接口和抽象合约都为智能合约提供了一种可定制和可重用的方法。<code>Solidity 0.4.11</code>中引入的接口类似于抽象合约，但不能实现任何功能。接口也有限制，例如不能访问存储或从其他接口继承，这通常使抽象合约更实用。虽然，接口对于在实现之前设计合约肯定有用。此外，重要的是要记住，如果合约继承自抽象合约，它必须通过覆盖实现所有未实现的功能，否则它也将是抽象的。</p> <h2 id="_5-fallback-function-后备函数"><a href="#_5-fallback-function-后备函数" class="header-anchor">#</a> 5. Fallback function 后备函数</h2> <blockquote><p>0xAA注：<code>Solidity 0.5.0</code>时还没有<code>receive</code>函数且<code>fallback</code>函数当时也直接声明为<code>function()</code>。关于最新版本的<code>fallback</code>函数教程，请看<a href="https://mirror.xyz/ninjak.eth/EroVZqHW1lfJFai3umiu4tb9r1ZbDVPOYC-puaZklAw" target="_blank" rel="noopener noreferrer">链接<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></blockquote> <h3 id="保持fallback-function简单"><a href="#保持fallback-function简单" class="header-anchor">#</a> 保持fallback function简单</h3> <p>当合约被发送一个没有参数的消息（或者没有函数匹配）或，<code>fallback function</code>会被调用。当被<code>.send()</code>或<code>.transfer</code>触发时，<code>fallback function</code>只能访问<code>2300 gas</code>。如果您希望能够从<code>send()</code>或<code>.transfer()</code>接收<code>ETH</code>，那么您在后备函数中最多可以做的就是记录一个事件。如果需要计算更多<code>gas</code>，请使用适当的函数。</p> <div class="language- extra-class"><pre class="language-text"><code>// bad
+function() payable { balances[msg.sender] += msg.value; }
+
+// good
+function deposit() payable external { balances[msg.sender] += msg.value; }
+
+function() payable { require(msg.data.length == 0); emit LogDepositReceived(msg.sender); }
+</code></pre></div><h3 id="检查回退函数中的数据长度"><a href="#检查回退函数中的数据长度" class="header-anchor">#</a> 检查回退函数中的数据长度</h3> <p>由于 <code>fallback function</code> 不仅在普通以太传输（没有<code>msg.data</code>）时调用，并且也在没有其他函数匹配时调用，如果后备函数仅用于记录接收到的<code>ETH</code>，则应检查数据是否为空。否则，如果你的合约使用不正确，调用了不存在的函数，调用者将不会注意到。</p> <div class="language- extra-class"><pre class="language-text"><code>// bad
+function() payable { emit LogDepositReceived(msg.sender); }
+
+// good
+function() payable { require(msg.data.length == 0); emit LogDepositReceived(msg.sender); }
+</code></pre></div><h2 id="_6-显式标记应付函数和状态变量"><a href="#_6-显式标记应付函数和状态变量" class="header-anchor">#</a> 6. 显式标记应付函数和状态变量</h2> <p>从 <code>Solidity 0.4.0</code>开始，每个接收以太币的函数都必须使用 <code>payable</code>修饰符，否则如果交易有<code>msg.value &gt; 0</code> 将被<code>revert</code>。</p> <p><strong>注意</strong>：可能不明显的事情： <code>payable</code> 修饰符仅适用于来自 <code>external</code> 合约的调用。如果我在同一个合约的<code>payable</code>函数中调用了一个非<code>payable</code>函数，这个非<code>payable</code>函数不会失败，尽管 <code>msg.value</code>不为零。</p> <h2 id="_7-显式标记函数和状态变量的可见性"><a href="#_7-显式标记函数和状态变量的可见性" class="header-anchor">#</a> 7. 显式标记函数和状态变量的可见性</h2> <p>明确标记函数和状态变量的可见性。函数可以指定为 <code>external</code>， <code>public</code>，<code>internal</code>或<code>private</code>。请理解它们之间的差异，例如，<code>external</code>可能足以代替 <code>public</code>。而对于状态变量，<code>external</code>是不用的。明确标记可见性将更容易捕捉关于谁可以调用函数或访问变量的错误。</p> <ol><li><p><code>External</code>函数是合约接口的一部分。<code>external</code>函数<code>f</code>不能在内部调用（即<code>f()</code> 不工作，但 <code>this.f()</code> 工作）。外部函数在接收大量数据时效率更高。</p></li> <li><p><code>Public</code>函数是合约接口的一部分，既可以在内部调用，也可以通过消息调用。对于公共状态变量，会生成一个自动 <code>getter</code> 函数。</p></li> <li><p><code>Internal</code> 函数和状态变量只能在内部访问，不使用<code>this</code>.</p></li> <li><p><code>Private</code> 函数和状态变量仅对定义它们的合约可见，而在派生合约中不可见。 <strong>注意</strong>：合约内的所有内容对区块链外部的所有观察者都是可见的，甚至是 <code>Private</code> 变量。</p></li></ol> <div class="language- extra-class"><pre class="language-text"><code>// bad
+uint x; // the default is internal for state variables, but it should be made explicit
+function buy() { // the default is public
+    // public code
+}
+
+// good
+uint private y;
+function buy() external {
+    // only callable externally or using this.buy()
+}
+
+function utility() public {
+    // callable externally, as well as internally: changing this code requires thinking about both cases.
+}
+
+function internalAction() internal {
+    // internal code
+}
+</code></pre></div><h2 id="_8-将编译指示锁定到特定的编译器版本"><a href="#_8-将编译指示锁定到特定的编译器版本" class="header-anchor">#</a> 8. 将编译指示锁定到特定的编译器版本</h2> <p>合约应该使用与它们经过最多测试的相同编译器版本和标志来部署。锁定 pragma 有助于确保合约不会被意外部署，例如使用可能具有更高风险未发现错误的最新编译器。合约也可能由其他人部署，并且 <code>pragma</code> 指示原作者预期的编译器版本。</p> <div class="language- extra-class"><pre class="language-text"><code>// bad
+pragma solidity ^0.4.4;
+
+
+// good
+pragma solidity 0.4.4;
+</code></pre></div><p><strong>注意</strong>：浮动 <code>pragma</code> 版本（即 <code>^0.4.25</code>）可以用<code>0.4.26-nightly.2018.9.25</code>编译，但不应使用<code>nightly</code>版本来编译生产代码。</p> <p><strong>警告</strong>：当合约打算供其他开发人员使用时，可以允许 <code>Pragma</code> 语句浮动，例如库或 <code>EthPM</code> 包中的合约。否则，开发人员需要手动更新编译指示才能在本地编译。</p> <h2 id="_9-使用事件来监控合约活动"><a href="#_9-使用事件来监控合约活动" class="header-anchor">#</a> 9. 使用事件来监控合约活动</h2> <p>有一种方法可以在部署后监控合约的活动是很有用的。实现这一点的一种方法是查看合约的所有交易，但这可能还不够，因为合约之间的消息调用不会记录在区块链中。此外，它只显示输入参数，而不是对状态进行的实际更改。事件也可用于触发用户界面中的功能。</p> <div class="language- extra-class"><pre class="language-text"><code>contract Charity {
+    mapping(address =&gt; uint) balances;
+
+    function donate() payable public {
+        balances[msg.sender] += msg.value;
+    }
+}
+
+contract Game {
+    function buyCoins() payable public {
+        // 5% goes to charity
+        charity.donate.value(msg.value / 20)();
+    }
+}
+</code></pre></div><p>在这里， <code>Game</code> 合约将内部调用 <code>Charity.donate()</code>. 该交易不会出现在<code>Charity</code> 的外部交易列表中，而只在内部交易中可见。</p> <p>事件是记录合约中发生的事情的便捷方式。发出的事件与其他合约数据一起留在区块链中，可供将来审计。这是对上述示例的改进，使用事件来提供慈善机构的捐赠历史。</p> <div class="language- extra-class"><pre class="language-text"><code>contract Charity {
+    // define event
+    event LogDonate(uint _amount);
+
+    mapping(address =&gt; uint) balances;
+
+    function donate() payable public {
+        balances[msg.sender] += msg.value;
+        // emit event
+        emit LogDonate(msg.value);
+    }
+}
+
+contract Game {
+    function buyCoins() payable public {
+        // 5% goes to charity
+        charity.donate.value(msg.value / 20)();
+    }
+}
+</code></pre></div><p>在这里，无论是否直接通过合约的所有交易都 <code>Charity</code> 将与捐赠的金额一起显示在该合约的事件列表中。</p> <p><strong>注意</strong>：优先使用更新的 Solidity 结构。首选结构/别名，例如 <code>selfdestruct</code> (而不是  <code>suicide</code>) 和 <code>keccak256</code> (而不是  <code>sha3</code>)。类似的模式 <code>require(msg.sender.send(1 ether))</code> 也可以简化为使用 <code>transfer()</code>，如 <code>msg.sender.transfer(1 ether)</code>. 查看 <code>Solidity</code> 更改日志 以了解更多类似更改。</p> <h2 id="_10-请注意-内置-函数可能会被隐藏"><a href="#_10-请注意-内置-函数可能会被隐藏" class="header-anchor">#</a> 10. 请注意，“内置”函数可能会被隐藏</h2> <p>目前可以 在 <code>Solidity</code> 中隐藏内置的全局变量。这允许合约覆盖内置插件的功能，例如 <code>msg</code> 和 <code>revert()</code>。尽管这是有意为之，但它可能会误导合约用户对合约的真实行为。</p> <div class="language- extra-class"><pre class="language-text"><code>contract PretendingToRevert {
+    function revert() internal constant {}
+}
+
+contract ExampleContract is PretendingToRevert {
+    function somethingBad() public {
+        revert();
+    }
+}
+</code></pre></div><p>合约用户（和审计员）应该了解他们打算使用的任何应用程序的完整智能合约源代码。</p> <h2 id="_11-避免使用-tx-origin"><a href="#_11-避免使用-tx-origin" class="header-anchor">#</a> 11. 避免使用 tx.origin</h2> <p>永远不要 tx.origin 用于授权，另一个合约可以有一个方法来调用你的合约（例如，用户有一些资金）并且你的合约将授权该交易，因为你的地址位于<code>tx.origin</code>.</p> <div class="language- extra-class"><pre class="language-text"><code>contract MyContract {
+
+    address owner;
+
+    function MyContract() public {
+        owner = msg.sender;
+    }
+
+    function sendTo(address receiver, uint amount) public {
+        require(tx.origin == owner);
+        (bool success, ) = receiver.call.value(amount)(&quot;&quot;);
+        require(success);
+    }
+
+}
+
+contract AttackingContract {
+
+    MyContract myContract;
+    address attacker;
+
+    function AttackingContract(address myContractAddress) public {
+        myContract = MyContract(myContractAddress);
+        attacker = msg.sender;
+    }
+
+    function() public {
+        myContract.sendTo(attacker, msg.sender.balance);
+    }
+
+}
+</code></pre></div><p>您应该使用 <code>msg.sender</code> 授权（如果另一个合约调用您的合约 <code>msg.sender</code> 将是该合约的地址，而不是调用该合约的用户的地址）。</p> <p><strong>警告</strong>：除了授权问题外， <code>tx.origin</code> 将来有可能从以太坊协议中删除，因此使用的代码 <code>tx.origin</code> 将与未来版本不兼容. Vitalik：'不要假设 <code>tx.origin</code> 将继续存在。</p> <p>还值得一提的是，通过使用 <code>tx.origin</code> 您会限制合约之间的互操作性，因为使用 <code>tx.origin</code> 的合约不能被另一个合约使用，因为合约不能是 <code>tx.origin.</code></p> <h2 id="_12-时间戳依赖"><a href="#_12-时间戳依赖" class="header-anchor">#</a> 12. 时间戳依赖</h2> <p>使用时间戳执行合约中的关键功能时，有三个主要考虑因素，尤其是当操作涉及资金转移时。</p> <h3 id="时间戳操作"><a href="#时间戳操作" class="header-anchor">#</a> 时间戳操作</h3> <p>请注意，区块的时间戳可以由矿工操纵。考虑这个合约：</p> <div class="language- extra-class"><pre class="language-text"><code>uint256 constant private salt =  block.timestamp;
+
+function random(uint Max) constant private returns (uint256 result){
+    //get the best seed for randomness
+    uint256 x = salt * 100/Max;
+    uint256 y = salt * block.number/(salt % 5) ;
+    uint256 seed = block.number/3 + (salt % 300) + Last_Payout + y;
+    uint256 h = uint256(block.blockhash(seed));
+
+    return uint256((h / x)) % Max + 1; //random number between 1 and Max
+}
+</code></pre></div><p>当合约使用时间戳播种一个随机数时，矿工实际上可以在区块被验证后的 15 秒内发布一个时间戳，从而有效地允许矿工预先计算一个更有利于他们中奖机会的选项。时间戳不是随机的，不应在该上下文中使用。</p> <h2 id="_13-15秒规则"><a href="#_13-15秒规则" class="header-anchor">#</a> 13. 15秒规则</h2> <p>黄皮书 （Ethereum 的参考规范）没有规定多少块可以在时间上漂移的限制，但它确实规定每个时间戳应该大于其父时间戳。流行的以太坊协议实现 <code>Geth</code>和<code>Parity</code>都拒绝未来时间戳超过 15 秒的块。因此，评估时间戳使用的一个好的经验法则是：如果您的时间相关事件的规模可以变化 15 秒并保持完整性，那么可以使用<code>block.timestamp</code>.</p> <h3 id="避免-block-number-用作时间戳"><a href="#避免-block-number-用作时间戳" class="header-anchor">#</a> 避免 block.number 用作时间戳</h3> <p>可以使用 <code>block.number</code> 属性和 平均块时间来估计时间增量，但这不是未来的证据，因为出块时间可能会改变（例如 分叉重组 和 难度炸弹）。但在只持续几天的销售中，15秒规则允许人们获得更可靠的时间估计。</p> <h2 id="_14-多重继承注意事项"><a href="#_14-多重继承注意事项" class="header-anchor">#</a> 14. 多重继承注意事项</h2> <p>在 Solidity 中使用多重继承时，了解编译器如何构成继承图非常重要。</p> <div class="language- extra-class"><pre class="language-text"><code>contract Final {
+    uint public a;
+    function Final(uint f) public {
+        a = f;
+    }
+}
+
+contract B is Final {
+    int public fee;
+
+    function B(uint f) Final(f) public {
+    }
+    function setFee() public {
+        fee = 3;
+    }
+}
+
+contract C is Final {
+    int public fee;
+
+    function C(uint f) Final(f) public {
+    }
+    function setFee() public {
+        fee = 5;
+    }
+}
+
+contract A is B, C {
+  function A() public B(3) C(5) {
+      setFee();
+  }
+}
+</code></pre></div><p>部署合约时，编译器将从右到左线性化继承（在关键字<code>is</code>之后 ，父项从最基类到最派生列出）。这是合约 <code>A</code> 的线性化：</p> <p><code>Final &lt;- B &lt;- C &lt;- A</code></p> <p>线性化的结果将产生 <code>fee = 5</code> 的值，因为 <code>C</code> 是最接近衍生的合约。这似乎很明显，但想象一下 <code>C</code> 能够隐藏关键函数、重新排序布尔子句并导致开发人员编写可利用的合约的场景。静态分析目前不会引发被遮盖的函数的问题，因此必须手动检查。</p> <p>为了帮助做出贡献，<code>Solidity</code> 的 <code>Github</code> 有一个包含所有继承相关问题的<a href="https://github.com/ethereum/solidity/projects/9#card-8027020" target="_blank" rel="noopener noreferrer">项目<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>。</p> <h2 id="_15-使用接口类型而不是地址来保证类型安全"><a href="#_15-使用接口类型而不是地址来保证类型安全" class="header-anchor">#</a> 15. 使用接口类型而不是地址来保证类型安全</h2> <p>当函数将合约地址作为参数时，最好传递接口或合约类型而不是  纯<code>address</code>。因为如果函数在源代码的其他地方被调用，编译器将提供额外的类型安全保证。</p> <p>在这里，我们看到了两种选择：</p> <div class="language- extra-class"><pre class="language-text"><code>contract Validator {
+    function validate(uint) external returns(bool);
+}
+
+contract TypeSafeAuction {
+    // good
+    function validateBet(Validator _validator, uint _value) internal returns(bool) {
+        bool valid = _validator.validate(_value);
+        return valid;
+    }
+}
+
+contract TypeUnsafeAuction {
+    // bad
+    function validateBet(address _addr, uint _value) internal returns(bool) {
+        Validator validator = Validator(_addr);
+        bool valid = validator.validate(_value);
+        return valid;
+    }
+}
+</code></pre></div><p>可以从下面示例中看出使用<code>TypeSafeAuction</code>合约的好处 。如果 <code>validateBet()</code> 使用 <code>address</code> 参数或合约类型而不是<code>Validator</code>合约类型，编译器将抛出此错误：</p> <div class="language- extra-class"><pre class="language-text"><code>contract NonValidator{}
+
+contract Auction is TypeSafeAuction {
+    NonValidator nonValidator;
+
+    function bet(uint _value) {
+        bool valid = validateBet(nonValidator, _value); // TypeError: Invalid type for argument in function call.
+                                                        // Invalid implicit conversion from contract NonValidator
+                                                        // to contract Validator requested.
+    }
+}
+</code></pre></div><h2 id="_16-避免-extcodesize-用于检查外部拥有的帐户"><a href="#_16-避免-extcodesize-用于检查外部拥有的帐户" class="header-anchor">#</a> 16. 避免 <code>extcodesize</code> 用于检查外部拥有的帐户</h2> <p>以下修饰符（或类似的检查）通常用于验证调用是来自外部拥有的账户（<code>EOA</code>）还是合约账户：</p> <div class="language- extra-class"><pre class="language-text"><code>// bad
+modifier isNotContract(address _a) {
+  uint size;
+  assembly {
+    size := extcodesize(_a)
+  }
+    require(size == 0);
+     _;
+}
+</code></pre></div><p>这个想法很简单：如果一个地址包含代码，它就不是一个 <code>EOA</code>，而是一个合约账户。但是，合约在构建期间没有可用的源代码。这意味着在构造函数运行时，它可以调用其他合约，但 <code>extcodesize</code> 在它的地址返回零。下面是一个最小的例子，展示了如何绕过这个检查：</p> <div class="language- extra-class"><pre class="language-text"><code>contract OnlyForEOA {    
+    uint public flag;
+
+    // bad
+    modifier isNotContract(address _a){
+        uint len;
+        assembly { len := extcodesize(_a) }
+        require(len == 0);
+        _;
+    }
+
+    function setFlag(uint i) public isNotContract(msg.sender){
+        flag = i;
+    }
+}
+
+contract FakeEOA {
+    constructor(address _a) public {
+        OnlyForEOA c = OnlyForEOA(_a);
+        c.setFlag(1);
+    }
+}
+</code></pre></div><p>因为可以预先计算合约地址，所以如果它检查一个在 <code>block n</code> 处为空，但在<code>block n</code>之后被部署的合约，依然会失败。</p> <p><strong>警告</strong>：这个问题很微妙。如果您的目标是阻止其他合约调用您的合约，那么 <code>extcodesize</code> 检查可能就足够了。另一种方法是检查 的值 (<code>tx.origin == msg.sender</code>)`，尽管这也有缺点。</p> <p>在其他情况下， <code>extcodesize</code> 可能会为您服务。在这里描述所有这些超出了范围。了解 <code>EVM</code> 的基本行为并使用您的判断。</p></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">6/29/2022, 10:06:07 PM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/zhuan-ti/erc721/loot/" class="prev">
+        Solidity极简入门 ERC721专题5：Loot
+      </a></span> <span class="next"><a href="/zhuan-ti/tools/toolremix/">
+        Solidity极简入门-工具篇1：Remix
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.401b85e8.js" defer></script><script src="/assets/js/2.45986f87.js" defer></script><script src="/assets/js/45.9138306f.js" defer></script>
+  </body>
+</html>
