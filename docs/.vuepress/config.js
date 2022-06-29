@@ -1,6 +1,6 @@
 module.exports = {
-  title: '一肩月光 · 笔记',
-  description: 'Live and learn.',
+  title: 'WTFSolidity-web',
+  description: 'WTFSolidity 中文站点',
   base: '/',
   themeConfig: {
     nav: [
