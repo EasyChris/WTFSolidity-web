@@ -10,3 +10,4 @@ mv -f WTFSolidity/* docs/
 
 rm -rf WTFSolidity
 
+yarn build
