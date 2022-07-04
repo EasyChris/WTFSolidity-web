@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Solidity极简入门: 34. ERC721 | WTFSolidity-web</title>
+    <meta name="generator" content="VuePress 1.7.1">
+    
+    <meta name="description" content="WTFSolidity 中文站点">
+    
+    <link rel="preload" href="/assets/css/0.styles.87888c96.css" as="style"><link rel="preload" href="/assets/js/app.cda10564.js" as="script"><link rel="preload" href="/assets/js/2.342d682f.js" as="script"><link rel="preload" href="/assets/js/46.daa5d15a.js" as="script"><link rel="prefetch" href="/assets/js/10.33814d21.js"><link rel="prefetch" href="/assets/js/11.51cd0748.js"><link rel="prefetch" href="/assets/js/12.497ca39b.js"><link rel="prefetch" href="/assets/js/13.2117d4e8.js"><link rel="prefetch" href="/assets/js/14.27bd9a33.js"><link rel="prefetch" href="/assets/js/15.d45d726d.js"><link rel="prefetch" href="/assets/js/16.31fba7c2.js"><link rel="prefetch" href="/assets/js/17.3490478d.js"><link rel="prefetch" href="/assets/js/18.8b0f4966.js"><link rel="prefetch" href="/assets/js/19.4ff0b904.js"><link rel="prefetch" href="/assets/js/20.923a791d.js"><link rel="prefetch" href="/assets/js/21.fc8be3f0.js"><link rel="prefetch" href="/assets/js/22.2eb0c867.js"><link rel="prefetch" href="/assets/js/23.05ed0694.js"><link rel="prefetch" href="/assets/js/24.54bda0d3.js"><link rel="prefetch" href="/assets/js/25.b5e74585.js"><link rel="prefetch" href="/assets/js/26.aea75b7b.js"><link rel="prefetch" href="/assets/js/27.50b3493b.js"><link rel="prefetch" href="/assets/js/28.91d81d2e.js"><link rel="prefetch" href="/assets/js/29.ea23fbbd.js"><link rel="prefetch" href="/assets/js/3.3f2ce87b.js"><link rel="prefetch" href="/assets/js/30.a1d02709.js"><link rel="prefetch" href="/assets/js/31.d7fd3f0d.js"><link rel="prefetch" href="/assets/js/32.f3fd7465.js"><link rel="prefetch" href="/assets/js/33.e6cabf2d.js"><link rel="prefetch" href="/assets/js/34.7d902d89.js"><link rel="prefetch" href="/assets/js/35.2f976b32.js"><link rel="prefetch" href="/assets/js/36.9c877d85.js"><link rel="prefetch" href="/assets/js/37.9f665b50.js"><link rel="prefetch" href="/assets/js/38.28c256e7.js"><link rel="prefetch" href="/assets/js/39.31704719.js"><link rel="prefetch" href="/assets/js/4.4890c017.js"><link rel="prefetch" href="/assets/js/40.b4b66a54.js"><link rel="prefetch" href="/assets/js/41.0472b5ca.js"><link rel="prefetch" href="/assets/js/42.ca4d307f.js"><link rel="prefetch" href="/assets/js/43.2a1c58ec.js"><link rel="prefetch" href="/assets/js/44.657037ab.js"><link rel="prefetch" href="/assets/js/45.8cee957f.js"><link rel="prefetch" href="/assets/js/47.dbccfdf1.js"><link rel="prefetch" href="/assets/js/48.b376f780.js"><link rel="prefetch" href="/assets/js/49.7bc098c8.js"><link rel="prefetch" href="/assets/js/5.684b967b.js"><link rel="prefetch" href="/assets/js/6.a2d48af7.js"><link rel="prefetch" href="/assets/js/7.4ff2d5e1.js"><link rel="prefetch" href="/assets/js/8.bf31f299.js"><link rel="prefetch" href="/assets/js/9.71bf02a9.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.87888c96.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">WTFSolidity-web</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="https://github.com/AmazingAng/WTFSolidity" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  WTFSolidity
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://github.com/EasyChris/WTFSolidity-web" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="https://github.com/AmazingAng/WTFSolidity" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  WTFSolidity
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://github.com/EasyChris/WTFSolidity-web" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Hello Web 3</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Value Types</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Function</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Return</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Data Storage</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Array And Struct</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Mapping</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Initial Value</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Constant</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Insertion Sort</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Modifier</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Event</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Inheritance</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Interface</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Errors</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Overloading</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Library</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Import</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Fallback</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Send ETH</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Call Contract</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Call</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Delegatecall</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Create</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Create 2</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Delete Contract</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>ABI Encode</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Hash</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Selector</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Try Catch</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>ERC 20</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Faucet</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Faucet Sol</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Airdrop</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>ERC 721</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/erc721/" aria-current="page" class="active sidebar-link">Solidity极简入门: 34. ERC721</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/erc721/#erc165" class="sidebar-link">ERC165</a></li><li class="sidebar-sub-header"><a href="/erc721/#ierc721" class="sidebar-link">IERC721</a></li><li class="sidebar-sub-header"><a href="/erc721/#ierc721receiver" class="sidebar-link">IERC721Receiver</a></li><li class="sidebar-sub-header"><a href="/erc721/#ierc721metadata" class="sidebar-link">IERC721Metadata</a></li><li class="sidebar-sub-header"><a href="/erc721/#erc721主合约" class="sidebar-link">ERC721主合约</a></li><li class="sidebar-sub-header"><a href="/erc721/#写一个免费铸造的ape" class="sidebar-link">写一个免费铸造的APE</a></li><li class="sidebar-sub-header"><a href="/erc721/#总结" class="sidebar-link">总结</a></li></ul></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Img</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>专题</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="solidity极简入门-34-erc721"><a href="#solidity极简入门-34-erc721" class="header-anchor">#</a> Solidity极简入门: 34. ERC721</h1> <p>我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。</p> <p>欢迎关注我的推特：<a href="https://twitter.com/0xAA_Science" target="_blank" rel="noopener noreferrer">@0xAA_Science<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p>欢迎加入WTF科学家社区，内有加微信群方法：<a href="https://discord.gg/5akcruXrsk" target="_blank" rel="noopener noreferrer">链接<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p>所有代码和教程开源在github（1024个star发课程认证，2048个star发社群NFT）: <a href="https://github.com/AmazingAng/WTFSolidity" target="_blank" rel="noopener noreferrer">github.com/AmazingAng/WTFSolidity<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <hr> <p><code>BTC</code>和<code>ETH</code>这类代币都属于同质化代币，矿工挖出的第<code>1</code>枚<code>BTC</code>与第<code>10000</code>枚<code>BTC</code>并没有不同，是等价的。但世界中很多物品是不同质的，其中包括房产、古董、虚拟艺术品等等，这类物品无法用同质化代币抽象。因此，<a href="https://eips.ethereum.org/EIPS/eip-721" target="_blank" rel="noopener noreferrer">以太坊EIP721<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>提出了<code>ERC721</code>标准，来抽象非同质化的物品。这一讲，我们将介绍<code>ERC721</code>标准，并基于它发行一款<code>NFT</code>。</p> <h2 id="erc165"><a href="#erc165" class="header-anchor">#</a> ERC165</h2> <p>通过<a href="https://eips.ethereum.org/EIPS/eip-165" target="_blank" rel="noopener noreferrer">ERC165标准<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>，智能合约可以声明它支持的接口，供其他合约检查。<code>IERC165</code>接口合约只声明了一个<code>supportsInterface</code>函数，输入要查询的<code>interfaceId</code>接口id，若合约实现了该接口id，则返回<code>true</code>：</p> <div class="language-solidity extra-class"><pre class="language-solidity"><code><span class="token keyword">interface</span> <span class="token class-name">IERC165</span> <span class="token punctuation">{</span>
+    <span class="token comment">/**
+     * @dev 如果合约实现了查询的`interfaceId`，则返回true
+     * 规则详见：https://eips.ethereum.org/EIPS/eip-165#how-interfaces-are-identified[EIP section]
+     *
+     */</span>
+    <span class="token keyword">function</span> <span class="token function">supportsInterface</span><span class="token punctuation">(</span><span class="token builtin">bytes4</span> interfaceId<span class="token punctuation">)</span> <span class="token keyword">external</span> <span class="token keyword">view</span> <span class="token keyword">returns</span> <span class="token punctuation">(</span><span class="token builtin">bool</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>我们可以看下<code>ERC721</code>是如何实现<code>supportsInterface()</code>函数的：</p> <div class="language-solidity extra-class"><pre class="language-solidity"><code>    <span class="token keyword">function</span> <span class="token function">supportsInterface</span><span class="token punctuation">(</span><span class="token builtin">bytes4</span> interfaceId<span class="token punctuation">)</span> <span class="token keyword">external</span> <span class="token keyword">pure</span> override <span class="token keyword">returns</span> <span class="token punctuation">(</span><span class="token builtin">bool</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span>
+            interfaceId <span class="token operator">==</span> <span class="token function">type</span><span class="token punctuation">(</span>IERC721<span class="token punctuation">)</span><span class="token punctuation">.</span>interfaceId <span class="token operator">||</span>
+            interfaceId <span class="token operator">==</span> <span class="token function">type</span><span class="token punctuation">(</span>IERC165<span class="token punctuation">)</span><span class="token punctuation">.</span>interfaceId<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+</code></pre></div><p>当查询的是<code>IERC721</code>或<code>IERC165</code>的接口id时，返回<code>true</code>；反之返回<code>false</code>。</p> <h2 id="ierc721"><a href="#ierc721" class="header-anchor">#</a> IERC721</h2> <p><code>IERC721</code>是<code>ERC721</code>标准的接口合约，规定了<code>ERC721</code>要实现的基本函数。它利用<code>tokenId</code>来表示特定的非同质化代币，授权或转账都要明确<code>tokenId</code>；而<code>ERC20</code>只需要明确转账的数额即可。</p> <div class="language-solidity extra-class"><pre class="language-solidity"><code><span class="token comment">/**
+ * @dev ERC721标准接口.
+ */</span>
+<span class="token keyword">interface</span> <span class="token class-name">IERC721</span> <span class="token keyword">is</span> IERC165 <span class="token punctuation">{</span>
+    <span class="token keyword">event</span> <span class="token function">Transfer</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword">indexed</span> <span class="token keyword">from</span><span class="token punctuation">,</span> <span class="token builtin">address</span> <span class="token keyword">indexed</span> to<span class="token punctuation">,</span> <span class="token builtin">uint256</span> <span class="token keyword">indexed</span> tokenId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">event</span> <span class="token function">Approval</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword">indexed</span> owner<span class="token punctuation">,</span> <span class="token builtin">address</span> <span class="token keyword">indexed</span> approved<span class="token punctuation">,</span> <span class="token builtin">uint256</span> <span class="token keyword">indexed</span> tokenId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">event</span> <span class="token function">ApprovalForAll</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword">indexed</span> owner<span class="token punctuation">,</span> <span class="token builtin">address</span> <span class="token keyword">indexed</span> operator<span class="token punctuation">,</span> <span class="token builtin">bool</span> approved<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">function</span> <span class="token function">balanceOf</span><span class="token punctuation">(</span><span class="token builtin">address</span> owner<span class="token punctuation">)</span> <span class="token keyword">external</span> <span class="token keyword">view</span> <span class="token keyword">returns</span> <span class="token punctuation">(</span><span class="token builtin">uint256</span> balance<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">function</span> <span class="token function">ownerOf</span><span class="token punctuation">(</span><span class="token builtin">uint256</span> tokenId<span class="token punctuation">)</span> <span class="token keyword">external</span> <span class="token keyword">view</span> <span class="token keyword">returns</span> <span class="token punctuation">(</span><span class="token builtin">address</span> owner<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">function</span> <span class="token function">safeTransferFrom</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> <span class="token keyword">from</span><span class="token punctuation">,</span>
+        <span class="token builtin">address</span> to<span class="token punctuation">,</span>
+        <span class="token builtin">uint256</span> tokenId<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> <span class="token keyword">calldata</span> data
+    <span class="token punctuation">)</span> <span class="token keyword">external</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">function</span> <span class="token function">safeTransferFrom</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> <span class="token keyword">from</span><span class="token punctuation">,</span>
+        <span class="token builtin">address</span> to<span class="token punctuation">,</span>
+        <span class="token builtin">uint256</span> tokenId
+    <span class="token punctuation">)</span> <span class="token keyword">external</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">function</span> <span class="token function">transferFrom</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> <span class="token keyword">from</span><span class="token punctuation">,</span>
+        <span class="token builtin">address</span> to<span class="token punctuation">,</span>
+        <span class="token builtin">uint256</span> tokenId
+    <span class="token punctuation">)</span> <span class="token keyword">external</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">function</span> <span class="token function">approve</span><span class="token punctuation">(</span><span class="token builtin">address</span> to<span class="token punctuation">,</span> <span class="token builtin">uint256</span> tokenId<span class="token punctuation">)</span> <span class="token keyword">external</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">function</span> <span class="token function">setApprovalForAll</span><span class="token punctuation">(</span><span class="token builtin">address</span> operator<span class="token punctuation">,</span> <span class="token builtin">bool</span> _approved<span class="token punctuation">)</span> <span class="token keyword">external</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">function</span> <span class="token function">getApproved</span><span class="token punctuation">(</span><span class="token builtin">uint256</span> tokenId<span class="token punctuation">)</span> <span class="token keyword">external</span> <span class="token keyword">view</span> <span class="token keyword">returns</span> <span class="token punctuation">(</span><span class="token builtin">address</span> operator<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">function</span> <span class="token function">isApprovedForAll</span><span class="token punctuation">(</span><span class="token builtin">address</span> owner<span class="token punctuation">,</span> <span class="token builtin">address</span> operator<span class="token punctuation">)</span> <span class="token keyword">external</span> <span class="token keyword">view</span> <span class="token keyword">returns</span> <span class="token punctuation">(</span><span class="token builtin">bool</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="ierc721事件"><a href="#ierc721事件" class="header-anchor">#</a> IERC721事件</h3> <p><code>IERC721</code>包含3个事件，其中<code>Transfer</code>和<code>Approval</code>事件在<code>ERC20</code>中也有。</p> <ul><li><code>Transfer</code>事件：在转账时被释放，记录代币的发出地址<code>from</code>，接收地址<code>to</code>和<code>tokenid</code>。</li> <li><code>Approval</code>事件：在授权时释放，记录授权地址<code>owner，被授权地址</code>approved<code>和</code>tokenid`。</li> <li><code>ApprovalForAll</code>事件：在批量授权时释放，记录批量授权的发出地址<code>owner</code>，被授权地址<code>operator</code>和授权与否的<code>approved</code>。</li></ul> <h3 id="ierc721函数"><a href="#ierc721函数" class="header-anchor">#</a> IERC721函数</h3> <ul><li><code>balanceOf</code>：返回某地址的NFT持有量<code>balance</code>。</li> <li><code>ownerOf</code>：返回某<code>tokenId</code>的主人<code>owner</code>。</li> <li><code>transferFrom</code>：普通转账，参数为转出地址<code>from</code>，接收地址<code>to</code>和<code>tokenId</code>。</li> <li><code>safeTransferFrom</code>：安全转账（如果接收方是合约地址，会要求实现<code>ERC721Receiver</code>接口）。参数为转出地址<code>from</code>，接收地址<code>to</code>和<code>tokenId</code>。</li> <li><code>approve</code>：授权另一个地址使用你的NFT。参数为被授权地址<code>approve</code>和<code>tokenId</code>。</li> <li><code>getApproved</code>：查询<code>tokenId</code>被批准给了哪个地址。</li> <li><code>setApprovalForAll</code>：将自己持有的该系列NFT批量授权给某个地址<code>operator</code>。</li> <li><code>isApprovedForAll</code>：查询某地址的NFT是否批量授权给了另一个<code>operator</code>地址。</li> <li><code>safeTransferFrom</code>：安全转账的重载函数，参数里面包含了<code>data</code>。</li></ul> <h2 id="ierc721receiver"><a href="#ierc721receiver" class="header-anchor">#</a> IERC721Receiver</h2> <p>如果一个合约没有实现<code>ERC721</code>的相关函数，转入的<code>NFT</code>就进了黑洞，永远转不出来了。为了防止误转账，<code>ERC721</code>实现了<code>safeTransferFrom()</code>安全转账函数，目标合约必须实现了<code>IERC721Receiver</code>接口才能接收<code>ERC721</code>代币，不然会<code>revert</code>。<code>IERC721Receiver</code>接口只包含一个<code>onERC721Received()</code>函数。</p> <div class="language-solidity extra-class"><pre class="language-solidity"><code><span class="token comment">// ERC721接收者接口：合约必须实现这个接口来通过安全转账接收ERC721</span>
+<span class="token keyword">interface</span> <span class="token class-name">IERC721Receiver</span> <span class="token punctuation">{</span>
+    <span class="token keyword">function</span> <span class="token function">onERC721Received</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> operator<span class="token punctuation">,</span>
+        <span class="token builtin">address</span> <span class="token keyword">from</span><span class="token punctuation">,</span>
+        <span class="token builtin">uint</span> tokenId<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> <span class="token keyword">calldata</span> data
+    <span class="token punctuation">)</span> <span class="token keyword">external</span> <span class="token keyword">returns</span> <span class="token punctuation">(</span><span class="token builtin">bytes4</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>我们看下<code>ERC721</code>利用<code>_checkOnERC721Received</code>来确保目标合约实现了<code>onERC721Received()</code>函数（返回<code>onERC721Received</code>的<code>selector</code>）：</p> <div class="language-solidity extra-class"><pre class="language-solidity"><code>    <span class="token keyword">function</span> <span class="token function">_checkOnERC721Received</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> <span class="token keyword">from</span><span class="token punctuation">,</span>
+        <span class="token builtin">address</span> to<span class="token punctuation">,</span>
+        <span class="token builtin">uint</span> tokenId<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> <span class="token keyword">memory</span> _data
+    <span class="token punctuation">)</span> <span class="token keyword">private</span> <span class="token keyword">returns</span> <span class="token punctuation">(</span><span class="token builtin">bool</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>to<span class="token punctuation">.</span><span class="token function">isContract</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span>
+                <span class="token function">IERC721Receiver</span><span class="token punctuation">(</span>to<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">onERC721Received</span><span class="token punctuation">(</span>
+                    msg<span class="token punctuation">.</span>sender<span class="token punctuation">,</span>
+                    <span class="token keyword">from</span><span class="token punctuation">,</span>
+                    tokenId<span class="token punctuation">,</span>
+                    _data
+                <span class="token punctuation">)</span> <span class="token operator">==</span> IERC721Receiver<span class="token punctuation">.</span>onERC721Received<span class="token punctuation">.</span>selector<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+</code></pre></div><h2 id="ierc721metadata"><a href="#ierc721metadata" class="header-anchor">#</a> IERC721Metadata</h2> <p><code>IERC721Metadata</code>是<code>ERC721</code>的拓展接口，实现了3个查询<code>metadata</code>元数据的常用函数：</p> <ul><li><code>name()</code>：返回代币名称。</li> <li><code>symbol()</code>：返回代币代号。</li> <li><code>tokenURI()</code>：通过<code>tokenId</code>查询<code>metadata</code>的链接<code>url</code>，<code>ERC721</code>特有的函数。</li></ul> <div class="language-solidity extra-class"><pre class="language-solidity"><code><span class="token keyword">interface</span> <span class="token class-name">IERC721Metadata</span> <span class="token keyword">is</span> IERC721 <span class="token punctuation">{</span>
+    <span class="token keyword">function</span> <span class="token function">name</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">external</span> <span class="token keyword">view</span> <span class="token keyword">returns</span> <span class="token punctuation">(</span><span class="token builtin">string</span> <span class="token keyword">memory</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">function</span> <span class="token function">symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">external</span> <span class="token keyword">view</span> <span class="token keyword">returns</span> <span class="token punctuation">(</span><span class="token builtin">string</span> <span class="token keyword">memory</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">function</span> <span class="token function">tokenURI</span><span class="token punctuation">(</span><span class="token builtin">uint256</span> tokenId<span class="token punctuation">)</span> <span class="token keyword">external</span> <span class="token keyword">view</span> <span class="token keyword">returns</span> <span class="token punctuation">(</span><span class="token builtin">string</span> <span class="token keyword">memory</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="erc721主合约"><a href="#erc721主合约" class="header-anchor">#</a> ERC721主合约</h2> <p><code>ERC721</code>主合约实现了<code>IERC721</code>，<code>IERC165</code>和<code>IERC721Metadata</code>定义的所有功能，包含<code>4</code>个状态变量和<code>17</code>个函数。实现都比较简单，每个函数的功能见代码注释：</p> <div class="language-solidity extra-class"><pre class="language-solidity"><code><span class="token comment">// SPDX-License-Identifier: MIT</span>
+<span class="token comment">// by 0xAA</span>
+<span class="token keyword">pragma</span> <span class="token keyword">solidity</span> <span class="token operator">^</span><span class="token version number">0.8.4</span><span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> <span class="token string">&quot;./IERC165.sol&quot;</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token string">&quot;./IERC721.sol&quot;</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token string">&quot;./IERC721Receiver.sol&quot;</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token string">&quot;./IERC721Metadata.sol&quot;</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token string">&quot;./Address.sol&quot;</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token string">&quot;./String.sol&quot;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">contract</span> <span class="token class-name">ERC721</span> <span class="token keyword">is</span> IERC721<span class="token punctuation">,</span> IERC721Metadata<span class="token punctuation">{</span>
+    <span class="token keyword">using</span> <span class="token class-name">Address</span> <span class="token keyword">for</span> <span class="token builtin">address</span><span class="token punctuation">;</span> <span class="token comment">// 使用Address库，用isContract来判断地址是否为合约</span>
+    <span class="token keyword">using</span> <span class="token class-name">Strings</span> <span class="token keyword">for</span> <span class="token builtin">uint256</span><span class="token punctuation">;</span> <span class="token comment">// 使用String库，</span>
+
+    <span class="token comment">// Token名称</span>
+    <span class="token builtin">string</span> <span class="token keyword">public</span> override name<span class="token punctuation">;</span>
+    <span class="token comment">// Token代号</span>
+    <span class="token builtin">string</span> <span class="token keyword">public</span> override symbol<span class="token punctuation">;</span>
+    <span class="token comment">// tokenId 到 owner address 的持有人映射</span>
+    <span class="token keyword">mapping</span><span class="token punctuation">(</span><span class="token builtin">uint</span> <span class="token operator">=&gt;</span> <span class="token builtin">address</span><span class="token punctuation">)</span> <span class="token keyword">private</span> _owners<span class="token punctuation">;</span>
+    <span class="token comment">// address 到 持仓数量 的持仓量映射</span>
+    <span class="token keyword">mapping</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token operator">=&gt;</span> <span class="token builtin">uint</span><span class="token punctuation">)</span> <span class="token keyword">private</span> _balances<span class="token punctuation">;</span>
+    <span class="token comment">// tokenID 到 授权地址 的授权映射</span>
+    <span class="token keyword">mapping</span><span class="token punctuation">(</span><span class="token builtin">uint</span> <span class="token operator">=&gt;</span> <span class="token builtin">address</span><span class="token punctuation">)</span> <span class="token keyword">private</span> _tokenApprovals<span class="token punctuation">;</span>
+    <span class="token comment">//  owner地址。到operator地址 的批量授权映射</span>
+    <span class="token keyword">mapping</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token operator">=&gt;</span> <span class="token keyword">mapping</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token operator">=&gt;</span> <span class="token builtin">bool</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">private</span> _operatorApprovals<span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * 构造函数，初始化`name` 和`symbol` .
+     */</span>
+    <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token builtin">string</span> <span class="token keyword">memory</span> name_<span class="token punctuation">,</span> <span class="token builtin">string</span> <span class="token keyword">memory</span> symbol_<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        name <span class="token operator">=</span> name_<span class="token punctuation">;</span>
+        symbol <span class="token operator">=</span> symbol_<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 实现IERC165接口supportsInterface</span>
+    <span class="token keyword">function</span> <span class="token function">supportsInterface</span><span class="token punctuation">(</span><span class="token builtin">bytes4</span> interfaceId<span class="token punctuation">)</span>
+        <span class="token keyword">external</span>
+        <span class="token keyword">pure</span>
+        override
+        <span class="token keyword">returns</span> <span class="token punctuation">(</span><span class="token builtin">bool</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span>
+            interfaceId <span class="token operator">==</span> <span class="token function">type</span><span class="token punctuation">(</span>IERC721<span class="token punctuation">)</span><span class="token punctuation">.</span>interfaceId <span class="token operator">||</span>
+            interfaceId <span class="token operator">==</span> <span class="token function">type</span><span class="token punctuation">(</span>IERC165<span class="token punctuation">)</span><span class="token punctuation">.</span>interfaceId <span class="token operator">||</span>
+            interfaceId <span class="token operator">==</span> <span class="token function">type</span><span class="token punctuation">(</span>IERC721Metadata<span class="token punctuation">)</span><span class="token punctuation">.</span>interfaceId<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 实现IERC721的balanceOf，利用_balances变量查询owner地址的balance。</span>
+    <span class="token keyword">function</span> <span class="token function">balanceOf</span><span class="token punctuation">(</span><span class="token builtin">address</span> owner<span class="token punctuation">)</span> <span class="token keyword">external</span> <span class="token keyword">view</span> override <span class="token keyword">returns</span> <span class="token punctuation">(</span><span class="token builtin">uint</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">require</span><span class="token punctuation">(</span>owner <span class="token operator">!=</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">&quot;owner = zero address&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> _balances<span class="token punctuation">[</span>owner<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 实现IERC721的ownerOf，利用_owners变量查询tokenId的owner。</span>
+    <span class="token keyword">function</span> <span class="token function">ownerOf</span><span class="token punctuation">(</span><span class="token builtin">uint</span> tokenId<span class="token punctuation">)</span> <span class="token keyword">public</span> <span class="token keyword">view</span> override <span class="token keyword">returns</span> <span class="token punctuation">(</span><span class="token builtin">address</span> owner<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        owner <span class="token operator">=</span> _owners<span class="token punctuation">[</span>tokenId<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">require</span><span class="token punctuation">(</span>owner <span class="token operator">!=</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">&quot;token doesn't exist&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 实现IERC721的isApprovedForAll，利用_operatorApprovals变量查询owner地址是否将所持NFT批量授权给了operator地址。</span>
+    <span class="token keyword">function</span> <span class="token function">isApprovedForAll</span><span class="token punctuation">(</span><span class="token builtin">address</span> owner<span class="token punctuation">,</span> <span class="token builtin">address</span> operator<span class="token punctuation">)</span>
+        <span class="token keyword">external</span>
+        <span class="token keyword">view</span>
+        override
+        <span class="token keyword">returns</span> <span class="token punctuation">(</span><span class="token builtin">bool</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> _operatorApprovals<span class="token punctuation">[</span>owner<span class="token punctuation">]</span><span class="token punctuation">[</span>operator<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 实现IERC721的setApprovalForAll，将持有代币全部授权给operator地址。调用_setApprovalForAll函数。</span>
+    <span class="token keyword">function</span> <span class="token function">setApprovalForAll</span><span class="token punctuation">(</span><span class="token builtin">address</span> operator<span class="token punctuation">,</span> <span class="token builtin">bool</span> approved<span class="token punctuation">)</span> <span class="token keyword">external</span> override <span class="token punctuation">{</span>
+        _operatorApprovals<span class="token punctuation">[</span>msg<span class="token punctuation">.</span>sender<span class="token punctuation">]</span><span class="token punctuation">[</span>operator<span class="token punctuation">]</span> <span class="token operator">=</span> approved<span class="token punctuation">;</span>
+        <span class="token keyword">emit</span> <span class="token function">ApprovalForAll</span><span class="token punctuation">(</span>msg<span class="token punctuation">.</span>sender<span class="token punctuation">,</span> operator<span class="token punctuation">,</span> approved<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 实现IERC721的getApproved，利用_tokenApprovals变量查询tokenId的授权地址。</span>
+    <span class="token keyword">function</span> <span class="token function">getApproved</span><span class="token punctuation">(</span><span class="token builtin">uint</span> tokenId<span class="token punctuation">)</span> <span class="token keyword">external</span> <span class="token keyword">view</span> override <span class="token keyword">returns</span> <span class="token punctuation">(</span><span class="token builtin">address</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">require</span><span class="token punctuation">(</span>_owners<span class="token punctuation">[</span>tokenId<span class="token punctuation">]</span> <span class="token operator">!=</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">&quot;token doesn't exist&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> _tokenApprovals<span class="token punctuation">[</span>tokenId<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+     
+    <span class="token comment">// 授权函数。通过调整_tokenApprovals来，授权 to 地址操作 tokenId，同时释放Approval事件。</span>
+    <span class="token keyword">function</span> <span class="token function">_approve</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> owner<span class="token punctuation">,</span>
+        <span class="token builtin">address</span> to<span class="token punctuation">,</span>
+        <span class="token builtin">uint</span> tokenId
+    <span class="token punctuation">)</span> <span class="token keyword">private</span> <span class="token punctuation">{</span>
+        _tokenApprovals<span class="token punctuation">[</span>tokenId<span class="token punctuation">]</span> <span class="token operator">=</span> to<span class="token punctuation">;</span>
+        <span class="token keyword">emit</span> <span class="token function">Approval</span><span class="token punctuation">(</span>owner<span class="token punctuation">,</span> to<span class="token punctuation">,</span> tokenId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 实现IERC721的approve，将tokenId授权给 to 地址。条件：to不是owner，且msg.sender是owner或授权地址。调用_approve函数。</span>
+    <span class="token keyword">function</span> <span class="token function">approve</span><span class="token punctuation">(</span><span class="token builtin">address</span> to<span class="token punctuation">,</span> <span class="token builtin">uint</span> tokenId<span class="token punctuation">)</span> <span class="token keyword">external</span> override <span class="token punctuation">{</span>
+        <span class="token builtin">address</span> owner <span class="token operator">=</span> _owners<span class="token punctuation">[</span>tokenId<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">require</span><span class="token punctuation">(</span>
+            msg<span class="token punctuation">.</span>sender <span class="token operator">==</span> owner <span class="token operator">||</span> _operatorApprovals<span class="token punctuation">[</span>owner<span class="token punctuation">]</span><span class="token punctuation">[</span>msg<span class="token punctuation">.</span>sender<span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token string">&quot;not owner nor approved for all&quot;</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">_approve</span><span class="token punctuation">(</span>owner<span class="token punctuation">,</span> to<span class="token punctuation">,</span> tokenId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 查询 spender地址是否被可以使用tokenId（他是owner或被授权地址）。</span>
+    <span class="token keyword">function</span> <span class="token function">_isApprovedOrOwner</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> owner<span class="token punctuation">,</span>
+        <span class="token builtin">address</span> spender<span class="token punctuation">,</span>
+        <span class="token builtin">uint</span> tokenId
+    <span class="token punctuation">)</span> <span class="token keyword">private</span> <span class="token keyword">view</span> <span class="token keyword">returns</span> <span class="token punctuation">(</span><span class="token builtin">bool</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>spender <span class="token operator">==</span> owner <span class="token operator">||</span>
+            _tokenApprovals<span class="token punctuation">[</span>tokenId<span class="token punctuation">]</span> <span class="token operator">==</span> spender <span class="token operator">||</span>
+            _operatorApprovals<span class="token punctuation">[</span>owner<span class="token punctuation">]</span><span class="token punctuation">[</span>spender<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/*
+     * 转账函数。通过调整_balances和_owner变量将 tokenId 从 from 转账给 to，同时释放Tranfer事件。
+     * 条件:
+     * 1. tokenId 被 from 拥有
+     * 2. to 不是0地址
+     */</span>
+    <span class="token keyword">function</span> <span class="token function">_transfer</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> owner<span class="token punctuation">,</span>
+        <span class="token builtin">address</span> <span class="token keyword">from</span><span class="token punctuation">,</span>
+        <span class="token builtin">address</span> to<span class="token punctuation">,</span>
+        <span class="token builtin">uint</span> tokenId
+    <span class="token punctuation">)</span> <span class="token keyword">private</span> <span class="token punctuation">{</span>
+        <span class="token keyword">require</span><span class="token punctuation">(</span><span class="token keyword">from</span> <span class="token operator">==</span> owner<span class="token punctuation">,</span> <span class="token string">&quot;not owner&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">require</span><span class="token punctuation">(</span>to <span class="token operator">!=</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">&quot;transfer to the zero address&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token function">_approve</span><span class="token punctuation">(</span>owner<span class="token punctuation">,</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> tokenId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        _balances<span class="token punctuation">[</span><span class="token keyword">from</span><span class="token punctuation">]</span> <span class="token operator">-=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        _balances<span class="token punctuation">[</span>to<span class="token punctuation">]</span> <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        _owners<span class="token punctuation">[</span>tokenId<span class="token punctuation">]</span> <span class="token operator">=</span> to<span class="token punctuation">;</span>
+
+        <span class="token keyword">emit</span> <span class="token function">Transfer</span><span class="token punctuation">(</span><span class="token keyword">from</span><span class="token punctuation">,</span> to<span class="token punctuation">,</span> tokenId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">// 实现IERC721的transferFrom，非安全转账，不建议使用。调用_transfer函数</span>
+    <span class="token keyword">function</span> <span class="token function">transferFrom</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> <span class="token keyword">from</span><span class="token punctuation">,</span>
+        <span class="token builtin">address</span> to<span class="token punctuation">,</span>
+        <span class="token builtin">uint</span> tokenId
+    <span class="token punctuation">)</span> <span class="token keyword">external</span> override <span class="token punctuation">{</span>
+        <span class="token builtin">address</span> owner <span class="token operator">=</span> <span class="token function">ownerOf</span><span class="token punctuation">(</span>tokenId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">require</span><span class="token punctuation">(</span>
+            <span class="token function">_isApprovedOrOwner</span><span class="token punctuation">(</span>owner<span class="token punctuation">,</span> msg<span class="token punctuation">.</span>sender<span class="token punctuation">,</span> tokenId<span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token string">&quot;not owner nor approved&quot;</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">_transfer</span><span class="token punctuation">(</span>owner<span class="token punctuation">,</span> <span class="token keyword">from</span><span class="token punctuation">,</span> to<span class="token punctuation">,</span> tokenId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 安全转账，安全地将 tokenId 代币从 from 转移到 to，会检查合约接收者是否了解 ERC721 协议，以防止代币被永久锁定。调用了_transfer函数和_checkOnERC721Received函数。条件：
+     * from 不能是0地址.
+     * to 不能是0地址.
+     * tokenId 代币必须存在，并且被 from拥有.
+     * 如果 to 是智能合约, 他必须支持 IERC721Receiver-onERC721Received.
+     */</span>
+    <span class="token keyword">function</span> <span class="token function">_safeTransfer</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> owner<span class="token punctuation">,</span>
+        <span class="token builtin">address</span> <span class="token keyword">from</span><span class="token punctuation">,</span>
+        <span class="token builtin">address</span> to<span class="token punctuation">,</span>
+        <span class="token builtin">uint</span> tokenId<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> <span class="token keyword">memory</span> _data
+    <span class="token punctuation">)</span> <span class="token keyword">private</span> <span class="token punctuation">{</span>
+        <span class="token function">_transfer</span><span class="token punctuation">(</span>owner<span class="token punctuation">,</span> <span class="token keyword">from</span><span class="token punctuation">,</span> to<span class="token punctuation">,</span> tokenId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">require</span><span class="token punctuation">(</span><span class="token function">_checkOnERC721Received</span><span class="token punctuation">(</span><span class="token keyword">from</span><span class="token punctuation">,</span> to<span class="token punctuation">,</span> tokenId<span class="token punctuation">,</span> _data<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">&quot;not ERC721Receiver&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 实现IERC721的safeTransferFrom，安全转账，调用了_safeTransfer函数。
+     */</span>
+    <span class="token keyword">function</span> <span class="token function">safeTransferFrom</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> <span class="token keyword">from</span><span class="token punctuation">,</span>
+        <span class="token builtin">address</span> to<span class="token punctuation">,</span>
+        <span class="token builtin">uint</span> tokenId<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> <span class="token keyword">memory</span> _data
+    <span class="token punctuation">)</span> <span class="token keyword">public</span> override <span class="token punctuation">{</span>
+        <span class="token builtin">address</span> owner <span class="token operator">=</span> <span class="token function">ownerOf</span><span class="token punctuation">(</span>tokenId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">require</span><span class="token punctuation">(</span>
+            <span class="token function">_isApprovedOrOwner</span><span class="token punctuation">(</span>owner<span class="token punctuation">,</span> msg<span class="token punctuation">.</span>sender<span class="token punctuation">,</span> tokenId<span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token string">&quot;not owner nor approved&quot;</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">_safeTransfer</span><span class="token punctuation">(</span>owner<span class="token punctuation">,</span> <span class="token keyword">from</span><span class="token punctuation">,</span> to<span class="token punctuation">,</span> tokenId<span class="token punctuation">,</span> _data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// safeTransferFrom重载函数</span>
+    <span class="token keyword">function</span> <span class="token function">safeTransferFrom</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> <span class="token keyword">from</span><span class="token punctuation">,</span>
+        <span class="token builtin">address</span> to<span class="token punctuation">,</span>
+        <span class="token builtin">uint</span> tokenId
+    <span class="token punctuation">)</span> <span class="token keyword">external</span> override <span class="token punctuation">{</span>
+        <span class="token function">safeTransferFrom</span><span class="token punctuation">(</span><span class="token keyword">from</span><span class="token punctuation">,</span> to<span class="token punctuation">,</span> tokenId<span class="token punctuation">,</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/** 
+     * 铸造函数。通过调整_balances和_owners变量来铸造tokenId并转账给 to，同时释放Tranfer事件。铸造函数。通过调整_balances和_owners变量来铸造tokenId并转账给 to，同时释放Tranfer事件。
+     * 这个mint函数所有人都能调用，实际使用需要开发人员重写，加上一些条件。
+     * 条件:
+     * 1. tokenId尚不存在。
+     * 2. to不是0地址.
+     */</span>
+    <span class="token keyword">function</span> <span class="token function">_mint</span><span class="token punctuation">(</span><span class="token builtin">address</span> to<span class="token punctuation">,</span> <span class="token builtin">uint</span> tokenId<span class="token punctuation">)</span> <span class="token keyword">internal</span> virtual <span class="token punctuation">{</span>
+        <span class="token keyword">require</span><span class="token punctuation">(</span>to <span class="token operator">!=</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">&quot;mint to zero address&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">require</span><span class="token punctuation">(</span>_owners<span class="token punctuation">[</span>tokenId<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">&quot;token already minted&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        _balances<span class="token punctuation">[</span>to<span class="token punctuation">]</span> <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        _owners<span class="token punctuation">[</span>tokenId<span class="token punctuation">]</span> <span class="token operator">=</span> to<span class="token punctuation">;</span>
+
+        <span class="token keyword">emit</span> <span class="token function">Transfer</span><span class="token punctuation">(</span><span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> to<span class="token punctuation">,</span> tokenId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 销毁函数，通过调整_balances和_owners变量来销毁tokenId，同时释放Tranfer事件。条件：tokenId存在。</span>
+    <span class="token keyword">function</span> <span class="token function">_burn</span><span class="token punctuation">(</span><span class="token builtin">uint</span> tokenId<span class="token punctuation">)</span> <span class="token keyword">internal</span> virtual <span class="token punctuation">{</span>
+        <span class="token builtin">address</span> owner <span class="token operator">=</span> <span class="token function">ownerOf</span><span class="token punctuation">(</span>tokenId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">require</span><span class="token punctuation">(</span>msg<span class="token punctuation">.</span>sender <span class="token operator">==</span> owner<span class="token punctuation">,</span> <span class="token string">&quot;not owner of token&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token function">_approve</span><span class="token punctuation">(</span>owner<span class="token punctuation">,</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> tokenId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        _balances<span class="token punctuation">[</span>owner<span class="token punctuation">]</span> <span class="token operator">-=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">delete</span> _owners<span class="token punctuation">[</span>tokenId<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">emit</span> <span class="token function">Transfer</span><span class="token punctuation">(</span>owner<span class="token punctuation">,</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> tokenId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// _checkOnERC721Received：函数，用于在 to 为合约的时候调用IERC721Receiver-onERC721Received, 以防 tokenId 被不小心转入黑洞。</span>
+    <span class="token keyword">function</span> <span class="token function">_checkOnERC721Received</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> <span class="token keyword">from</span><span class="token punctuation">,</span>
+        <span class="token builtin">address</span> to<span class="token punctuation">,</span>
+        <span class="token builtin">uint</span> tokenId<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> <span class="token keyword">memory</span> _data
+    <span class="token punctuation">)</span> <span class="token keyword">private</span> <span class="token keyword">returns</span> <span class="token punctuation">(</span><span class="token builtin">bool</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>to<span class="token punctuation">.</span><span class="token function">isContract</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span>
+                <span class="token function">IERC721Receiver</span><span class="token punctuation">(</span>to<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">onERC721Received</span><span class="token punctuation">(</span>
+                    msg<span class="token punctuation">.</span>sender<span class="token punctuation">,</span>
+                    <span class="token keyword">from</span><span class="token punctuation">,</span>
+                    tokenId<span class="token punctuation">,</span>
+                    _data
+                <span class="token punctuation">)</span> <span class="token operator">==</span> IERC721Receiver<span class="token punctuation">.</span>onERC721Received<span class="token punctuation">.</span>selector<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 实现IERC721Metadata的tokenURI函数，查询metadata。
+     */</span>
+    <span class="token keyword">function</span> <span class="token function">tokenURI</span><span class="token punctuation">(</span><span class="token builtin">uint256</span> tokenId<span class="token punctuation">)</span> <span class="token keyword">public</span> <span class="token keyword">view</span> virtual override <span class="token keyword">returns</span> <span class="token punctuation">(</span><span class="token builtin">string</span> <span class="token keyword">memory</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">require</span><span class="token punctuation">(</span>_owners<span class="token punctuation">[</span>tokenId<span class="token punctuation">]</span> <span class="token operator">!=</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">&quot;Token Not Exist&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token builtin">string</span> <span class="token keyword">memory</span> baseURI <span class="token operator">=</span> <span class="token function">_baseURI</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token builtin">bytes</span><span class="token punctuation">(</span>baseURI<span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token operator">&gt;</span> <span class="token number">0</span> <span class="token operator">?</span> <span class="token builtin">string</span><span class="token punctuation">(</span>abi<span class="token punctuation">.</span><span class="token function">encodePacked</span><span class="token punctuation">(</span>baseURI<span class="token punctuation">,</span> tokenId<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">:</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 计算{tokenURI}的BaseURI，tokenURI就是把baseURI和tokenId拼接在一起，需要开发重写。
+     * BAYC的baseURI为ipfs://QmeSjSinHpPnmXmspMjwiXyN6zS4E9zccariGR3jxcaWtq/ 
+     */</span>
+    <span class="token keyword">function</span> <span class="token function">_baseURI</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">internal</span> <span class="token keyword">view</span> virtual <span class="token keyword">returns</span> <span class="token punctuation">(</span><span class="token builtin">string</span> <span class="token keyword">memory</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="写一个免费铸造的ape"><a href="#写一个免费铸造的ape" class="header-anchor">#</a> 写一个免费铸造的APE</h2> <p>我们来利用<code>ERC721</code>来写一个免费铸造的<code>WTF APE</code>，总量设置为<code>10000</code>，只需要重写一下<code>mint()</code>和<code>baseURI()</code>函数即可。由于<code>baseURI()</code>设置的和<code>BAYC</code>一样，元数据会直接获取无聊猿的，类似<a href="https://rrbayc.com/" target="_blank" rel="noopener noreferrer">RRBAYC<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>：</p> <div class="language-solidity extra-class"><pre class="language-solidity"><code><span class="token comment">// SPDX-License-Identifier: MIT</span>
+<span class="token comment">// by 0xAA</span>
+<span class="token keyword">pragma</span> <span class="token keyword">solidity</span> <span class="token operator">^</span><span class="token version number">0.8.4</span><span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> <span class="token string">&quot;./ERC721.sol&quot;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">contract</span> <span class="token class-name">WTFApe</span> <span class="token keyword">is</span> ERC721<span class="token punctuation">{</span>
+    <span class="token builtin">uint</span> <span class="token keyword">public</span> MAX_APES <span class="token operator">=</span> <span class="token number">10000</span><span class="token punctuation">;</span> <span class="token comment">// 总量</span>
+
+    <span class="token comment">// 构造函数</span>
+    <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token builtin">string</span> <span class="token keyword">memory</span> name_<span class="token punctuation">,</span> <span class="token builtin">string</span> <span class="token keyword">memory</span> symbol_<span class="token punctuation">)</span> <span class="token function">ERC721</span><span class="token punctuation">(</span>name_<span class="token punctuation">,</span> symbol_<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">//BAYC的baseURI为ipfs://QmeSjSinHpPnmXmspMjwiXyN6zS4E9zccariGR3jxcaWtq/ </span>
+    <span class="token keyword">function</span> <span class="token function">_baseURI</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">internal</span> <span class="token keyword">pure</span> override <span class="token keyword">returns</span> <span class="token punctuation">(</span><span class="token builtin">string</span> <span class="token keyword">memory</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">&quot;ipfs://QmeSjSinHpPnmXmspMjwiXyN6zS4E9zccariGR3jxcaWtq/&quot;</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">// 铸造函数</span>
+    <span class="token keyword">function</span> <span class="token function">mint</span><span class="token punctuation">(</span><span class="token builtin">address</span> to<span class="token punctuation">,</span> <span class="token builtin">uint</span> tokenId<span class="token punctuation">)</span> <span class="token keyword">external</span> <span class="token punctuation">{</span>
+        <span class="token keyword">require</span><span class="token punctuation">(</span>tokenId <span class="token operator">&gt;=</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> tokenId <span class="token operator">&lt;</span> MAX_APES<span class="token punctuation">,</span> <span class="token string">&quot;tokenId out of range&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">_mint</span><span class="token punctuation">(</span>to<span class="token punctuation">,</span> tokenId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="总结"><a href="#总结" class="header-anchor">#</a> 总结</h2> <p>这一讲，我介绍了<code>ERC721</code>标准、接口及其实现，并在合约代码进行了中文注释。并且我们利用<code>ERC721</code>做了一个免费铸造的<code>WTF APE</code> NFT，元数据直接调用于<code>BAYC</code>。<code>ERC721</code>标准仍在不断发展中，目前比较流行的版本为<code>ERC721Enumerable</code>（提高NFT可访问性）和<code>ERC721A</code>（节约铸造<code>gas</code>）。</p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/airdrop/" class="prev">
+        Solidity极简入门: 33. 空投合约
+      </a></span> <span class="next"><a href="/img/">
+        /img/
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.cda10564.js" defer></script><script src="/assets/js/2.342d682f.js" defer></script><script src="/assets/js/46.daa5d15a.js" defer></script>
+  </body>
+</html>

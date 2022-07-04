@@ -3,11 +3,20 @@
 set -e
 
 # clone WTFSolidity
+rm -rf WTFSolidity/ docs/
 
 git clone git@github.com:AmazingAng/WTFSolidity.git
+
+mkdir docs
+
+cp -r .vuepress docs
 
 mv -f WTFSolidity/* docs/
 
 rm -rf WTFSolidity
 
-yarn build
+git add .
+
+git commit -m "auto build"
+
+git push origin master
