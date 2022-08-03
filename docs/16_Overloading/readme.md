@@ -1,3 +1,12 @@
+---
+title: 16. 函数重载
+tags:
+  - solidity
+  - advanced
+  - wtfacademy
+  - overloading
+---
+
 # Solidity极简入门: 16. 函数重载
 我最近在重新学solidity，巩固一下细节，也写一个“Solidity极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
 
@@ -24,7 +33,7 @@ function saySomething(string memory something) public pure returns(string memory
 }
 ```
 
-最终重载函数在经过编译器编译后，由于不同的参数类型，都变成了不同的函数选择器（selector）。关于函数选择器的具体内容可参考[Solidity极简入门: 28. 函数选择器Selector](https://github.com/AmazingAng/WTFSolidity/tree/main/28_Selector)。
+最终重载函数在经过编译器编译后，由于不同的参数类型，都变成了不同的函数选择器（selector）。关于函数选择器的具体内容可参考[Solidity极简入门: 29. 函数选择器Selector](https://github.com/AmazingAng/WTFSolidity/tree/main/29_Selector)。
 
 以 `Overloading.sol` 合约为例，在 Remix 上编译部署后，分别调用重载函数 `saySomething()` 和 `saySomething(string memory something)`，可以看到他们返回了不同的结果，被区分为不同的函数。
 ![](./img/16-1.jpg)
