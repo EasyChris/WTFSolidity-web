@@ -1,6 +1,6 @@
-# Solidity Minimalist Tutorial: 5. Variable data storage and scope
+# WTF Solidity Tutorial: 5. Data Storage and Scope
 
-Recently, I have been relearning Solidity, consolidating the finer details, and also writing a "Solidity Minimalist Tutorial" for newbies to learn. Lectures are updated 1~3 times weekly. 
+Recently, I have been relearning Solidity, consolidating the finer details, and also writing a "WTF Solidity Tutorial" for newbies to learn. Lectures are updated 1~3 times weekly. 
 
 Everyone is welcomed to follow my Twitter: [@0xAA_Science](https://twitter.com/0xAA_Science)
 
@@ -38,7 +38,7 @@ General usage:
 **Example:**
 ![5-1.png](./img/5-1.png)
 
-### Data location and assignment behaviour
+### Data location and assignment behaviour
 
 Data locations are not only relevant for persistency of data, but also for the semantics of assignments:
 
@@ -97,7 +97,7 @@ We can change the value of the state variable in a function:
 ```
 
 ### 2. Local variable
-Local variables are variables that are only valid during function execution. After the function exits, the variables are invalid. The data of local variables is stored in memory, not on-chain, and their `gas` consumption is low. 
+Local variables are variables that are only valid during function execution. After the function exits, the variables are invalid. The data of local variables are stored in memory, not on-chain, and their `gas` consumption is low. 
 
 Local variables are declared inside a function:
 ```solidity
