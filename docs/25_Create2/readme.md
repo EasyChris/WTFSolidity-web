@@ -51,7 +51,7 @@ Contract x = new Contract{salt: _salt, value: _value}(params)
 
 ## 极简Uniswap2
 
-跟[上一讲](https://mirror.xyz/dashboard/edit/kojopp2CgDK3ehHxXc_2fkZe87uM0O5OmsEU6y83eJs)类似，我们用`Create2`来实现极简`Uniswap`。
+跟[上一讲](https://mirror.xyz/ninjak.eth/kojopp2CgDK3ehHxXc_2fkZe87uM0O5OmsEU6y83eJs)类似，我们用`Create2`来实现极简`Uniswap`。
 
 ### `Pair`
 ```solidity
@@ -84,7 +84,7 @@ contract PairFactory2{
 
         function createPair2(address tokenA, address tokenB) external returns (address pairAddr) {
             require(tokenA != tokenB, 'IDENTICAL_ADDRESSES'); //避免tokenA和tokenB相同产生的冲突
-            // 计算用tokenA和tokenB地址计算salt
+            // 用tokenA和tokenB地址计算salt
             (address token0, address token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA); //将tokenA和tokenB按大小排序
             bytes32 salt = keccak256(abi.encodePacked(token0, token1));
             // 用create2部署新合约
